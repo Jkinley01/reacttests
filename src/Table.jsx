@@ -6,20 +6,30 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import { connect } from "react-redux";
+import { addEmployee } from "./js/actions/index"
+import { changeEmployeeCount } from "./js/actions/index"
 
 const mapStateToProps = state => {
-  return { employees: state.employees,  };
+  return { employees: state.employees, employeeAmount: state.employeeAmount, show: state.show, editingEmp: state.editingEmp };
 };
 
-class Table extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      tableData: [],
-      datAmt: props.dataNum || "10",
-      show: false,
-      editingEmp: {}
-    };
+function mapDispatchToProps(dispatch) {
+  return {
+    addEmployee: employee => dispatch(addEmployee(employee)),
+    changeEmployeeCount: employeeCount => dispatch(changeEmployeeCount(employeeCount))
+  };
+}
+
+class EmpTable extends React.Component {
+  constructor() {
+    super();
+
+    // this.state = {
+    //   tableData: [],
+    //   datAmt: props.dataNum || "10",
+    //   show: false,
+    //   editingEmp: {}
+    // };
 
     this.refreshResults = this.refreshResults.bind(this);
     this.handleShow = this.handleShow.bind(this);
@@ -105,7 +115,7 @@ class Table extends React.Component {
             </Modal.Footer>
           </Modal>
         </div>
-        <EditField onclick={this.refreshResults} dataNum={this.state.datAmt} />
+        <EditField onclick={this.refreshResults} dataNum={this.props.employeeAmount} />
         <BootstrapTable striped bordered hover variant="dark" id="empTbl">
           <thead>
             <tr>
@@ -222,5 +232,7 @@ function ModalFormBody(props) {
     </Form>
   );
 }
+
+const Table = connect(mapDispatchToProps, mapStateToProps)(EmpTable);
 
 export default Table;
