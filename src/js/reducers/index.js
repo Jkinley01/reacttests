@@ -22,12 +22,13 @@ function rootReducer(state = initialState, action) {
       });
   }
   else if(action.type == GET_EMPLOYEES) {
-      let obj = fetchEmployees().resolve();
-      obj.then(() => {
-        return obj;
-      });
-      
+      fetchEmployees().then((data) => {
+        return Object.assign({}, state, {
+          employees: data
+        }); 
+      })
   }
+
   return state;
 }
 
@@ -43,11 +44,8 @@ async function fetchEmployees(state = initialState) {
       }
   
       var data = await response.json();
-      
-      return new Promise(function(resolve, reject) {
-          resolve(data);
-      });
 
+      return data.results;
       return Object.assign({}, state, {
         employees: data
       }); 
