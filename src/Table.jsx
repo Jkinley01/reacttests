@@ -35,7 +35,7 @@ class Table extends React.Component {
 
     let list = this.state.tableData.slice();
     let personObj = list.find(
-      person => person.login.username === e.login.username
+      person => person.login.uuid === e.login.uuid
     );
 
     Object.assign(personObj, this.state.editingEmp);
@@ -53,7 +53,7 @@ class Table extends React.Component {
 
   rowClick(id) {
     let list = this.state.tableData.slice();
-    let personObj = list.find(person => person.login.username === id);
+    let personObj = list.find(person => person.login.uuid === id);
 
     this.setState({
       show: true,
@@ -111,8 +111,8 @@ class Table extends React.Component {
           <tbody>
             {tableData.map(person => (
               <tr
-                key={person.login.username}
-                onClick={() => this.rowClick(person.login.username)}
+                key={person.login.uuid}
+                onClick={() => this.rowClick(person.login.uuid)}
               >
                 <td>{person.name.first}</td>
                 <td>{person.name.last}</td>
