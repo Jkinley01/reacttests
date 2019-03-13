@@ -47,6 +47,8 @@ class Table extends React.Component {
       );
     } catch (err) {
       console.log(err);
+      alert("Failed to fetch data. Check internet connection and click 'Refresh'");
+      return;
     }
 
     var data = await response.json();
