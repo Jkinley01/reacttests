@@ -3,13 +3,13 @@ import { CHANGE_EMPLOYEE_COUNT } from "../constants/action-types";
 import { GET_EMPLOYEES } from "../constants/action-types"
 
 const initialState = {
-  employees: {},
+  employees: [],
   employeeAmount: "10",
   show: false,
   editingEmp: {}
 };
 
-async function rootReducer(state = initialState, action) {
+function rootReducer(state = initialState, action) {
   if (action.type === ADD_EMPLOYEE) {
     return Object.assign({}, state, {
       employees: state.employees.concat(action.payload)
@@ -22,7 +22,7 @@ async function rootReducer(state = initialState, action) {
       });
   }
   else if(action.type == GET_EMPLOYEES) {
-      return await fetchEmployees();
+      return fetchEmployees().resolve();
   }
   return state;
 }

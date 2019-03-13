@@ -51,6 +51,7 @@ class EmpTable extends React.Component {
   }
 
   async componentDidMount() {
+    console.log(this.props.show);
     // try {
     //   var response = await fetch(
     //     "https://randomuser.me/api/?results=" + this.state.datAmt
