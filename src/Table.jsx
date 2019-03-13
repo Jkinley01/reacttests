@@ -8,6 +8,7 @@ import Col from "react-bootstrap/Col";
 import { connect } from "react-redux";
 import { addEmployee } from "./js/actions/index"
 import { changeEmployeeCount } from "./js/actions/index"
+import { getEmployees } from "./js/actions/index"
 
 const mapStateToProps = state => {
   return { employees: state.employees, employeeAmount: state.employeeAmount, show: state.show, editingEmp: state.editingEmp };
@@ -16,20 +17,14 @@ const mapStateToProps = state => {
 function mapDispatchToProps(dispatch) {
   return {
     addEmployee: employee => dispatch(addEmployee(employee)),
-    changeEmployeeCount: employeeCount => dispatch(changeEmployeeCount(employeeCount))
+    changeEmployeeCount: employeeCount => dispatch(changeEmployeeCount(employeeCount)),
+    getEmployees: () => dispatch(getEmployees())
   };
 }
 
 class EmpTable extends React.Component {
   constructor() {
     super();
-
-    // this.state = {
-    //   tableData: [],
-    //   datAmt: props.dataNum || "10",
-    //   show: false,
-    //   editingEmp: {}
-    // };
 
     this.refreshResults = this.refreshResults.bind(this);
     this.handleShow = this.handleShow.bind(this);
@@ -56,18 +51,20 @@ class EmpTable extends React.Component {
   }
 
   async componentDidMount() {
-    try {
-      var response = await fetch(
-        "https://randomuser.me/api/?results=" + this.state.datAmt
-      );
-    } catch (err) {
-      console.log(err);
-      alert("Failed to fetch data. Check internet connection and click 'Refresh'");
-      return;
-    }
+    // try {
+    //   var response = await fetch(
+    //     "https://randomuser.me/api/?results=" + this.state.datAmt
+    //   );
+    // } catch (err) {
+    //   console.log(err);
+    //   alert("Failed to fetch data. Check internet connection and click 'Refresh'");
+    //   return;
+    // }
 
-    var data = await response.json();
-    this.setState({ tableData: data.results });
+    // var data = await response.json();
+    // this.setState({ tableData: data.results });
+
+    getEmployees();
   }
 
   rowClick(id) {
@@ -87,7 +84,7 @@ class EmpTable extends React.Component {
   }
 
   render() {
-    const { tableData } = this.state;
+    //const { tableData } = this.state;
 
     return (
       <div id="tableDiv">
@@ -96,7 +93,7 @@ class EmpTable extends React.Component {
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
             centered
-            show={this.state.show}
+            show={this.props.show}
             onHide={this.handleClose}
           >
             <Modal.Header closeButton>
@@ -106,7 +103,7 @@ class EmpTable extends React.Component {
             </Modal.Header>
             <Modal.Body>
               <ModalFormBody
-                emp={this.state.editingEmp}
+                emp={this.props.editingEmp}
                 updateEmp={this.updateEmp}
               />
             </Modal.Body>
@@ -128,7 +125,7 @@ class EmpTable extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {tableData.map(person => (
+            {this.props.employees.map(person => (
               <tr
                 key={person.login.uuid}
                 onClick={() => this.rowClick(person.login.uuid)}
