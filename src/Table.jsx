@@ -34,18 +34,20 @@ class Table extends React.Component {
     this.setState({ editingEmp: e, show: false });
 
     let list = this.state.tableData.slice();
-    let personObj = list.find(
-      person => person.login.uuid === e.login.uuid
-    );
+    let personObj = list.find(person => person.login.uuid === e.login.uuid);
 
     Object.assign(personObj, this.state.editingEmp);
     this.setState({ tableData: list });
   }
 
   async componentDidMount() {
-    var response = await fetch(
-      "https://randomuser.me/api/?results=" + this.state.datAmt
-    );
+    try {
+      var response = await fetch(
+        "https://randomuser.me/api/?results=" + this.state.datAmt
+      );
+    } catch (err) {
+      console.log(err);
+    }
 
     var data = await response.json();
     this.setState({ tableData: data.results });
