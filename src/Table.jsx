@@ -5,6 +5,11 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
+import { connect } from "react-redux";
+
+const mapStateToProps = state => {
+  return { employees: state.employees,  };
+};
 
 class Table extends React.Component {
   constructor(props) {
