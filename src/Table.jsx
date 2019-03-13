@@ -65,7 +65,7 @@ class EmpTable extends React.Component {
     // var data = await response.json();
     // this.setState({ tableData: data.results });
 
-    getEmployees();
+    this.props.getEmployees();
   }
 
   rowClick(id) {
