@@ -230,6 +230,6 @@ function ModalFormBody(props) {
   );
 }
 
-const Table = connect(mapDispatchToProps, mapStateToProps)(EmpTable);
+const Table = connect(mapStateToProps, mapDispatchToProps)(EmpTable);
 
 export default Table;
