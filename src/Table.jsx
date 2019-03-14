@@ -10,8 +10,8 @@ import { addEmployee } from "./js/actions/index";
 import { changeEmployeeCount } from "./js/actions/index";
 import { getEmployees } from "./js/actions/index";
 import { fetchEmployees } from "./js/actions/index";
-import { setEditingEmployee } from "./js/actions/index"
-import { saveEditedEmployee } from "./js/actions/index"
+import { setEditingEmployee } from "./js/actions/index";
+import { saveEditedEmployee } from "./js/actions/index";
 
 // const mapStateToProps = state => {
 //   return {
@@ -31,7 +31,8 @@ const mapStateToProps = state => {
 function mapDispatchToProps(dispatch) {
   return {
     addEmployee: employee => dispatch(addEmployee(employee)),
-    changeEmployeeCount: employeeCount => dispatch(changeEmployeeCount(employeeCount)),
+    changeEmployeeCount: employeeCount =>
+      dispatch(changeEmployeeCount(employeeCount)),
     getEmployees: () => dispatch(getEmployees()),
     fetchEmployees: amount => dispatch(fetchEmployees(amount)),
     setEditingEmployee: emp => dispatch(setEditingEmployee(emp)),
@@ -76,10 +77,9 @@ class EmpTable extends React.Component {
   }
 
   rowClick(id) {
-    //let list = this.props.employees.slice();
-    //let personObj = Object.assign({}, list.find(person => person.login.uuid === id));
-
-    let personObj = this.props.employees.find(person => person.login.uuid === id);
+    let personObj = this.props.employees.find(
+      person => person.login.uuid === id
+    );
     this.props.setEditingEmployee(personObj);
 
     this.setState({
@@ -240,6 +240,9 @@ function ModalFormBody(props) {
   );
 }
 
-const Table = connect(mapStateToProps, mapDispatchToProps)(EmpTable);
+const Table = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(EmpTable);
 
 export default Table;
