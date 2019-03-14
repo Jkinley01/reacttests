@@ -9,7 +9,11 @@ import { connect } from "react-redux";
 import { addEmployee } from "./js/actions/index";
 import { changeEmployeeCount } from "./js/actions/index";
 import { getEmployees } from "./js/actions/index";
-import { thunk_action_creator } from "./js/actions/index";
+import { fetchEmployees } from "./js/actions/index";
+import { updateEmployeeCount } from "./js/actions/index"
+import { setEditingEmployee } from "./js/actions/index"
+import { saveEditedEmployee } from "./js/actions/index"
+
 // const mapStateToProps = state => {
 //   return {
 //     data: state
@@ -28,16 +32,19 @@ const mapStateToProps = state => {
 function mapDispatchToProps(dispatch) {
   return {
     addEmployee: employee => dispatch(addEmployee(employee)),
-    changeEmployeeCount: employeeCount =>
-      dispatch(changeEmployeeCount(employeeCount)),
+    changeEmployeeCount: employeeCount => dispatch(changeEmployeeCount(employeeCount)),
     getEmployees: () => dispatch(getEmployees()),
-    thunk_action_creator: () => dispatch(thunk_action_creator())
+    fetchEmployees: amount => dispatch(fetchEmployees(amount)),
+    setEditingEmployee: emp => dispatch(setEditingEmployee(emp)),
+    saveEditedEmployee: emp => dispatch(saveEditedEmployee(emp))
   };
 }
 
 class EmpTable extends React.Component {
   constructor() {
     super();
+
+    this.state = { show: false };
 
     this.refreshResults = this.refreshResults.bind(this);
     this.handleShow = this.handleShow.bind(this);
@@ -54,56 +61,39 @@ class EmpTable extends React.Component {
   }
 
   updateEmp(e) {
-    this.setState({ editingEmp: e, show: false });
+    this.setState({ show: false });
 
-    let list = this.state.tableData.slice();
-    let personObj = list.find(person => person.login.uuid === e.login.uuid);
+    this.props.setEditingEmployee(e);
+    this.props.saveEditedEmployee();
+    // this.props.setEditingEmployee(e);
 
-    Object.assign(personObj, this.state.editingEmp);
-    this.setState({ tableData: list });
+    // let list = this.state.tableData.slice();
+    // let personObj = list.find(person => person.login.uuid === e.login.uuid);
+
+    // Object.assign(personObj, this.state.editingEmp);
+    // this.setState({ tableData: list });
   }
 
-  async componentDidMount() {
-    console.log(this.props.show);
-    // try {
-    //   var response = await fetch(
-    //     "https://randomuser.me/api/?results=" + this.state.datAmt
-    //   );
-    // } catch (err) {
-    //   console.log(err);
-    //   alert("Failed to fetch data. Check internet connection and click 'Refresh'");
-    //   return;
-    // }
-
-    // var data = await response.json();
-    // this.setState({ tableData: data.results });
-
-    //let pls = this.props.getEmployees();
-
-    //console.log(this.props.employees)
-
-    this.props.dispatch((thunk_action_creator("10")));
+  componentDidMount() {
+    this.props.fetchEmployees(this.props.employeeAmount);
   }
 
   rowClick(id) {
-    let list = this.state.tableData.slice();
+    let list = this.props.employees.slice();
     let personObj = list.find(person => person.login.uuid === id);
 
+    this.props.setEditingEmployee(personObj);
+
     this.setState({
-      show: true,
-      editingEmp: Object.create(personObj)
+      show: true
     });
   }
 
-  async refreshResults(amount) {
-    var response = await fetch("https://randomuser.me/api/?results=" + amount);
-    var data = await response.json();
-    await this.setState({ tableData: data.results });
+  refreshResults(amount) {
+    this.props.fetchEmployees(amount);
   }
 
   render() {
-    //const { tableData } = this.state;
-
     return (
       <div id="tableDiv">
         <div>
@@ -111,7 +101,7 @@ class EmpTable extends React.Component {
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
             centered
-            show={this.props.show}
+            show={this.state.show}
             onHide={this.handleClose}
           >
             <Modal.Header closeButton>
@@ -251,8 +241,6 @@ function ModalFormBody(props) {
   );
 }
 
-const Table = connect(
-  mapStateToProps
-)(EmpTable);
+const Table = connect(mapStateToProps, mapDispatchToProps)(EmpTable);
 
 export default Table;
