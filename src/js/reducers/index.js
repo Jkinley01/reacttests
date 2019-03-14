@@ -6,7 +6,7 @@ import { SAVE_EDITED_EMPLOYEE } from "../constants/action-types"
 
 const initialState = {
   employees: [],
-  employeeAmount: null,
+  employeeAmount: "10",
   show: false,
   editingEmp: {}
 };

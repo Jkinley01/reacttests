@@ -86,7 +86,7 @@ class EmpTable extends React.Component {
     });
   }
 
-  refreshResults(amount) {
+  refreshResults() {
     this.props.fetchEmployees(this.props.employeeAmount);
   }
 

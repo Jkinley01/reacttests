@@ -3,11 +3,9 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
 function EditField(props) {
-  const [dataNum, setDataNum] = useState(props.dataNum);
-
   function handleChange(e) {
-    setDataNum(e.target.value);
-    props.onchange(dataNum)
+    if(e === undefined || e === "") return;
+    props.onchange(e.target.value)
   }
 
   return (
@@ -26,7 +24,7 @@ function EditField(props) {
           </Form.Text>
         </Form.Group>
       </Form>
-      <Button variant="success" onClick={() => props.onclick(dataNum)}>
+      <Button variant="success" onClick={() => props.onclick()}>
         Refresh
       </Button>
     </div>
