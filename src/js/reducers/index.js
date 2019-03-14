@@ -9,7 +9,7 @@ const initialState = {
   editingEmp: {}
 };
 
-function rootReducer(state = initialState, action) {
+const rootReducer = (state = initialState, action) => {
   if (action.type === ADD_EMPLOYEE) {
     return Object.assign({}, state, {
       employees: state.employees.concat(action.payload)
@@ -22,11 +22,11 @@ function rootReducer(state = initialState, action) {
       });
   }
   else if(action.type == GET_EMPLOYEES) {
-      fetchEmployees().then((data) => {
+      //fetchEmployees().then((data) => {
         return Object.assign({}, state, {
-          employees: data
+          employees: action.data
         }); 
-      })
+      //})
   }
 
   return state;

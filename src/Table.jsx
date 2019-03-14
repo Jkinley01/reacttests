@@ -6,19 +6,32 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import { connect } from "react-redux";
-import { addEmployee } from "./js/actions/index"
-import { changeEmployeeCount } from "./js/actions/index"
-import { getEmployees } from "./js/actions/index"
+import { addEmployee } from "./js/actions/index";
+import { changeEmployeeCount } from "./js/actions/index";
+import { getEmployees } from "./js/actions/index";
+import { thunk_action_creator } from "./js/actions/index";
+// const mapStateToProps = state => {
+//   return {
+//     data: state
+//   };
+// };
 
 const mapStateToProps = state => {
-  return { employees: state.employees, employeeAmount: state.employeeAmount, show: state.show, editingEmp: state.editingEmp };
+  return {
+    employees: state.employees,
+    employeeAmount: state.employeeAmount,
+    show: state.show,
+    editingEmp: state.editingEmp
+  };
 };
 
 function mapDispatchToProps(dispatch) {
   return {
     addEmployee: employee => dispatch(addEmployee(employee)),
-    changeEmployeeCount: employeeCount => dispatch(changeEmployeeCount(employeeCount)),
-    getEmployees: () => dispatch(getEmployees())
+    changeEmployeeCount: employeeCount =>
+      dispatch(changeEmployeeCount(employeeCount)),
+    getEmployees: () => dispatch(getEmployees()),
+    thunk_action_creator: () => dispatch(thunk_action_creator())
   };
 }
 
@@ -65,7 +78,11 @@ class EmpTable extends React.Component {
     // var data = await response.json();
     // this.setState({ tableData: data.results });
 
-    this.props.getEmployees();
+    //let pls = this.props.getEmployees();
+
+    //console.log(this.props.employees)
+
+    this.props.dispatch((thunk_action_creator("10")));
   }
 
   rowClick(id) {
@@ -113,7 +130,10 @@ class EmpTable extends React.Component {
             </Modal.Footer>
           </Modal>
         </div>
-        <EditField onclick={this.refreshResults} dataNum={this.props.employeeAmount} />
+        <EditField
+          onclick={this.refreshResults}
+          dataNum={this.props.employeeAmount}
+        />
         <BootstrapTable striped bordered hover variant="dark" id="empTbl">
           <thead>
             <tr>
@@ -231,6 +251,8 @@ function ModalFormBody(props) {
   );
 }
 
-const Table = connect(mapStateToProps, mapDispatchToProps)(EmpTable);
+const Table = connect(
+  mapStateToProps
+)(EmpTable);
 
 export default Table;
