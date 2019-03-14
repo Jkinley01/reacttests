@@ -6,7 +6,7 @@ import { SAVE_EDITED_EMPLOYEE } from "../constants/action-types"
 
 const initialState = {
   employees: [],
-  employeeAmount: "10",
+  employeeAmount: null,
   show: false,
   editingEmp: {}
 };
@@ -17,23 +17,23 @@ const rootReducer = (state = initialState, action) => {
       employees: state.employees.concat(action.payload)
     });
   }
-  else if(action.type == CHANGE_EMPLOYEE_COUNT) {
+  else if(action.type === CHANGE_EMPLOYEE_COUNT) {
       //do stuff
       return Object.assign({}, state, {
         employeeAmount: action.payload
       });
   }
-  else if(action.type == GET_EMPLOYEES) {
+  else if(action.type === GET_EMPLOYEES) {
         return Object.assign({}, state, {
           employees: action.data
         }); 
   }
-  else if(action.type == SET_EDITING_EMPLOYEE) {
+  else if(action.type === SET_EDITING_EMPLOYEE) {
     return Object.assign({}, state, {
       editingEmp: action.payload
     }); 
   }
-  else if(action.type == SAVE_EDITED_EMPLOYEE) {
+  else if(action.type === SAVE_EDITED_EMPLOYEE) {
     let list = state.employees.slice();
     let pObj = list.find(person => person.login.uuid === state.editingEmp.login.uuid)
 

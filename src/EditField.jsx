@@ -7,6 +7,7 @@ function EditField(props) {
 
   function handleChange(e) {
     setDataNum(e.target.value);
+    props.onchange(dataNum)
   }
 
   return (
@@ -17,7 +18,7 @@ function EditField(props) {
           <Form.Control
             type="number"
             aria-describedby="dataHelp"
-            onChange={e => handleChange(e)}
+            onChange={e => handleChange(e) }
             placeholder="10"
           />
           <Form.Text className="text-muted">

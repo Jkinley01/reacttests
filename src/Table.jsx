@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import EditField from "./EditField";
 import BootstrapTable from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
@@ -10,7 +10,6 @@ import { addEmployee } from "./js/actions/index";
 import { changeEmployeeCount } from "./js/actions/index";
 import { getEmployees } from "./js/actions/index";
 import { fetchEmployees } from "./js/actions/index";
-import { updateEmployeeCount } from "./js/actions/index"
 import { setEditingEmployee } from "./js/actions/index"
 import { saveEditedEmployee } from "./js/actions/index"
 
@@ -50,6 +49,7 @@ class EmpTable extends React.Component {
     this.handleShow = this.handleShow.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.updateEmp = this.updateEmp.bind(this);
+    this.updateEmployeeCount = this.updateEmployeeCount.bind(this);
   }
 
   handleClose() {
@@ -60,18 +60,15 @@ class EmpTable extends React.Component {
     this.setState({ show: true });
   }
 
+  updateEmployeeCount(e) {
+    this.props.changeEmployeeCount(e);
+  }
+
   updateEmp(e) {
     this.setState({ show: false });
 
     this.props.setEditingEmployee(e);
     this.props.saveEditedEmployee();
-    // this.props.setEditingEmployee(e);
-
-    // let list = this.state.tableData.slice();
-    // let personObj = list.find(person => person.login.uuid === e.login.uuid);
-
-    // Object.assign(personObj, this.state.editingEmp);
-    // this.setState({ tableData: list });
   }
 
   componentDidMount() {
@@ -90,7 +87,7 @@ class EmpTable extends React.Component {
   }
 
   refreshResults(amount) {
-    this.props.fetchEmployees(amount);
+    this.props.fetchEmployees(this.props.employeeAmount);
   }
 
   render() {
@@ -122,6 +119,7 @@ class EmpTable extends React.Component {
         </div>
         <EditField
           onclick={this.refreshResults}
+          onchange={this.updateEmployeeCount}
           dataNum={this.props.employeeAmount}
         />
         <BootstrapTable striped bordered hover variant="dark" id="empTbl">
