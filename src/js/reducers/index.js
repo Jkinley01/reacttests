@@ -3,44 +3,41 @@ import { CHANGE_EMPLOYEE_COUNT } from "../constants/action-types";
 import { GET_EMPLOYEES } from "../constants/action-types"
 import { SET_EDITING_EMPLOYEE } from "../constants/action-types"
 import { SAVE_EDITED_EMPLOYEE } from "../constants/action-types"
+import Immutable from 'immutable';
 
-const initialState = {
+const initialState = Immutable.fromJS({
   employees: [],
   employeeAmount: "10",
   show: false,
   editingEmp: {}
-};
+});
 
 const rootReducer = (state = initialState, action) => {
+  //state = Immutable.fromJS(state);
+
   if (action.type === ADD_EMPLOYEE) {
-    return Object.assign({}, state, {
-      employees: state.employees.concat(action.payload)
-    });
+    let lst = state.get('employees');
+    lst.concat(action.payload);
+    return state.set('employees', lst);
   }
   else if(action.type === CHANGE_EMPLOYEE_COUNT) {
-      //do stuff
-      return Object.assign({}, state, {
-        employeeAmount: action.payload
-      });
+      return state.set('employeeAmount', action.payload);
   }
   else if(action.type === GET_EMPLOYEES) {
-        return Object.assign({}, state, {
-          employees: action.data
-        }); 
+    return state.set('employees', action.data);
   }
   else if(action.type === SET_EDITING_EMPLOYEE) {
-    return Object.assign({}, state, {
-      editingEmp: action.payload
-    }); 
+    return state.set('editingEmp', action.payload);
   }
   else if(action.type === SAVE_EDITED_EMPLOYEE) {
-    let list = state.employees.slice();
-    let pObj = list.find(person => person.login.uuid === state.editingEmp.login.uuid)
+    let lst = state.get('employees');
+    let editObj = state.get('editingEmp');
 
-    Object.assign(pObj, state.editingEmp);
-    return Object.assign({}, state, {
-      employees: list
-    }); 
+    let pObj = lst.find(person => person.login.uuid === editObj.login.uuid);
+    
+    Object.assign(pObj, editObj);
+
+    return state.set('employees', lst);
   }
 
   return state;

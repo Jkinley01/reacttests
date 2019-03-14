@@ -21,10 +21,10 @@ import { saveEditedEmployee } from "./js/actions/index"
 
 const mapStateToProps = state => {
   return {
-    employees: state.employees,
-    employeeAmount: state.employeeAmount,
-    show: state.show,
-    editingEmp: state.editingEmp
+    employees: state.toJS().employees,
+    employeeAmount: state.toJS().employeeAmount,
+    show: state.toJS().show,
+    editingEmp: state.toJS().editingEmp
   };
 };
 
@@ -76,9 +76,10 @@ class EmpTable extends React.Component {
   }
 
   rowClick(id) {
-    let list = this.props.employees.slice();
-    let personObj = list.find(person => person.login.uuid === id);
+    //let list = this.props.employees.slice();
+    //let personObj = Object.assign({}, list.find(person => person.login.uuid === id));
 
+    let personObj = this.props.employees.find(person => person.login.uuid === id);
     this.props.setEditingEmployee(personObj);
 
     this.setState({
