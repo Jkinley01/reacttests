@@ -1,8 +1,8 @@
 import { ADD_EMPLOYEE } from "../constants/action-types";
 import { CHANGE_EMPLOYEE_COUNT } from "../constants/action-types";
 import { GET_EMPLOYEES } from "../constants/action-types";
-import { SET_EDITING_EMPLOYEE } from "../constants/action-types"
-import { SAVE_EDITED_EMPLOYEE } from "../constants/action-types"
+import { SET_EDITING_EMPLOYEE } from "../constants/action-types";
+import { SAVE_EDITED_EMPLOYEE } from "../constants/action-types";
 
 export const getEmployees = post => {
   return { type: GET_EMPLOYEES, data: post };

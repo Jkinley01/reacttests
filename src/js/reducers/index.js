@@ -30,7 +30,7 @@ const rootReducer = (state = initialState, action) => {
     let pObj = lst.find(person => person.login.uuid === editObj.login.uuid);
 
     Object.assign(pObj, editObj);
-    state.set('editingEmp', null);
+    state.set("editingEmp", null);
 
     return state.set("employees", lst);
   }

@@ -13,12 +13,6 @@ import { fetchEmployees } from "./js/actions/index";
 import { setEditingEmployee } from "./js/actions/index";
 import { saveEditedEmployee } from "./js/actions/index";
 
-// const mapStateToProps = state => {
-//   return {
-//     data: state
-//   };
-// };
-
 const mapStateToProps = state => {
   return {
     employees: state.toJS().employees,
@@ -31,8 +25,7 @@ const mapStateToProps = state => {
 function mapDispatchToProps(dispatch) {
   return {
     addEmployee: employee => dispatch(addEmployee(employee)),
-    changeEmployeeCount: employeeCount =>
-      dispatch(changeEmployeeCount(employeeCount)),
+    changeEmployeeCount: employeeCount => dispatch(changeEmployeeCount(employeeCount)),
     getEmployees: () => dispatch(getEmployees()),
     fetchEmployees: amount => dispatch(fetchEmployees(amount)),
     setEditingEmployee: emp => dispatch(setEditingEmployee(emp)),
@@ -80,6 +73,7 @@ class EmpTable extends React.Component {
     let personObj = this.props.employees.find(
       person => person.login.uuid === id
     );
+    
     this.props.setEditingEmployee(personObj);
 
     this.setState({
